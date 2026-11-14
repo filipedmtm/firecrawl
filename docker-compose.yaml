@@ -223,7 +223,34 @@ services:
     networks:
       - backend
     restart: "no"
+    
+  firecrawl-mcp:
+    image: node:22-alpine
+    command: ["npx", "-y", "firecrawl-mcp"]
+    environment:
+      HTTP_STREAMABLE_SERVER: "true"
+      HOST: "0.0.0.0"
+      PORT: "3000"
+      FIRECRAWL_API_URL: "http://api:3002"
+      FIRECRAWL_MCP_ALLOWED_HOSTS: "${MCP_DOMAIN}"
+    depends_on:
+      - api
+    networks:
+      - backend
+    restart: unless-stopped
 
+  mcp-gate:
+    image: nginx:1.27-alpine
+    environment:
+      MCP_TOKEN: "${MCP_TOKEN}"
+    volumes:
+      - ./nginx/mcp-gate.conf.template:/etc/nginx/templates/default.conf.template:ro
+    depends_on:
+      - firecrawl-mcp
+    networks:
+      - backend
+    restart: unless-stopped
+    
 networks:
   backend:
     driver: bridge
