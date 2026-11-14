@@ -249,11 +249,15 @@ services:
       - firecrawl-mcp
     networks:
       - backend
+    labels:
+      - traefik.docker.network=coolify
     restart: unless-stopped
     
 networks:
   backend:
     driver: bridge
+    coolify:
+    external: true
 
 volumes:
   fdb-data:
