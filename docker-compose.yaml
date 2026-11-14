@@ -256,7 +256,7 @@ services:
 networks:
   backend:
     driver: bridge
-    coolify:
+  coolify:
     external: true
 
 volumes:
