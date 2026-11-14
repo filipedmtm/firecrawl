@@ -250,7 +250,7 @@ services:
     networks:
       - backend
     labels:
-      - traefik.docker.network=coolify
+      - traefik.docker.network=jsc8wkowswwo4ck8o8osc0ss
     restart: unless-stopped
     
 networks:
